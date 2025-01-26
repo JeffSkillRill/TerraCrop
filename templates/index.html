@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+</head>
+<style>
+    h1 {
+        color: mediumseagreen;
+        text-align: center;
+    }
+
+    .warning {
+        color: red;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .card {
+        margin-left: 410px;
+        margin-top: 20px;
+        color: white;
+    }
+
+    .container {
+        background: #edf2f7;
+        font-weight: bold;
+        padding-bottom: 10px;
+        border-radius: 15px;
+    }
+</style>
+
+
+<body style="background:#2e5700">
+<div class="container my-3 mt-3">
+    <h1 class="text-success">Crop Recommendation System <span class="text-success">🌱</span></h1>
+    <form method="POST" action="/predict">
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <label for="City">City</label>
+                <input
+                        type="text"
+                        id="City"
+                        name="City"
+                        placeholder="Enter City Name"
+                        class="form-control"
+                        value="{{ request.form['City'] if request.form.get('City') else '' }}"
+                        required
+                >
+            </div>
+            <div class="col-md-4">
+                <label for="Nitrogen">Nitrogen (N)</label>
+                <input
+                        type="number"
+                        id="Nitrogen"
+                        name="Nitrogen"
+                        step="0.01"
+                        placeholder="Enter Nitrogen value"
+                        class="form-control"
+                        value="{{ request.form['Nitrogen'] if request.form.get('Nitrogen') else '' }}"
+                        required
+                >
+            </div>
+            <div class="col-md-4">
+                <label for="Phosphorus">Phosphorus (P)</label>
+                <input
+                        type="number"
+                        id="Phosphorus"
+                        name="Phosporus"
+                        step="0.01"
+                        placeholder="Enter Phosphorus value"
+                        class="form-control"
+                        value="{{ request.form['Phosporus'] if request.form.get('Phosporus') else '' }}"
+                        required
+                >
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <label for="Potassium">Potassium (K)</label>
+                <input
+                        type="number"
+                        id="Potassium"
+                        name="Potassium"
+                        step="0.01"
+                        placeholder="Enter Potassium value"
+                        class="form-control"
+                        value="{{ request.form['Potassium'] if request.form.get('Potassium') else '' }}"
+                        required
+                >
+            </div>
+            <div class="col-md-4">
+                <label for="pH">pH</label>
+                <input
+                        type="number"
+                        id="Ph"
+                        name="Ph"
+                        step="0.01"
+                        placeholder="Enter pH value"
+                        class="form-control"
+                        value="{{ request.form['Ph'] if request.form.get('Ph') else '' }}"
+                        required
+                >
+            </div>
+            <div class="col-md-4">
+                <label for="Rainfall">Rainfall (mm)</label>
+                <input
+                        type="number"
+                        id="Rainfall"
+                        name="Rainfall"
+                        step="0.01"
+                        placeholder="Enter the Yearly Rainfall in mm"
+                        class="form-control"
+                        value="{{ request.form['Rainfall'] if request.form.get('Rainfall') else '' }}"
+                        required
+                >
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <label for="Temperature">Temperature (°C)</label>
+                    <input
+                            type="number"
+                            id="Temperature"
+                            name="Temperature"
+                            step="0.01"
+                            placeholder="Enter the Yearly Temperature in °C"
+                            class="form-control"
+                            value="{{ request.form['Temperature'] if request.form.get('Temperature') else '' }}"
+                            required
+                    >
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <label for="Humidity">Humidity</label>
+                    <p id="Humidity" class="form-control">{{ humidity }}%</p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row mt-4">
+            <div class="col-md-8">
+                {% if result %}
+                <div id="Result" class="alert alert-success">
+                    {{ result }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-secondary" onclick="resetForm()">Reinput Values</button>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        function resetForm() {
+            document.getElementById("City").value = "";
+            document.getElementById("Nitrogen").value = "";
+            document.getElementById("Phosphorus").value = "";
+            document.getElementById("Potassium").value = "";
+            document.getElementById("Ph").value = "";
+            document.getElementById("Rainfall").value = "";
+            document.getElementById("Temperature").value = "°C";
+            document.getElementById("Humidity").textContent = "%";
+
+            var resultDiv = document.getElementById("Result");
+            if (resultDiv) {
+                resultDiv.innerHTML = "";
+                resultDiv.classList.remove("alert-success");
+            }
+        }
+    </script>
+</div>
+</body>
+</html>
